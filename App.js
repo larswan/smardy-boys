@@ -4,20 +4,17 @@ import { Alert, Button, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeed
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 16}}>Who are the smartest boys in the world?</Text>
+      <Text className="text-xl font-black text-center pb-4">Who are the smartest boys in the world?</Text>
       <StatusBar style="auto" />
-      {/* <Button 
-        onPress=
-        title="Click to find out!"
-        color="#ff5c5c"
-        accessibilityLabel="Accessibility read stuff">
-      </Button> */}
       <TouchableOpacity
-        style={{ color:'red'}}
-        onPress={() => Alert.alert('Colter and Lason')}
+        className="bg-black	rounded-lg"
+        onPress={() => Alert.alert('Colter and Larson')}
       >
-        <Text> Touch Here </Text>
+        <Text className="p-2 m-2 text-white ">Touch this to find out!</Text>
       </TouchableOpacity>
+      <View>
+        <Text className="text-white font-italics pt-4">Micahael, my child, be born unto this larger view</Text>
+      </View>
     </View>
   );
 }
