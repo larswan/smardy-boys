@@ -6,6 +6,7 @@ const Stack = createNativeStackNavigator();
 
 import Home from './components/Home';
 import TestScreen from './components/TestScreen';
+import ChatScreen from './components/ChatScreen';
 
 export default function App() {
 
@@ -20,6 +21,10 @@ export default function App() {
         <Stack.Screen 
         name="TestScreen"
         component={TestScreen}
+        />
+        <Stack.Screen 
+        name="ChatScreen"
+        component={ChatScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>     
