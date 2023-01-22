@@ -5,12 +5,12 @@ import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
 const ChatScreen = () => {
 
     const [newChat, setNewChat] = useState("")
-    const handleMessage = () => {
+    const handleMessage = async() => {
+        let req = await fetch("")
 
+        setNewChat("")
     }
     const handleChange = (e) => {
-        // console.log(e)
-
         setNewChat(e)
         console.log(newChat)
     }
@@ -20,7 +20,7 @@ const ChatScreen = () => {
     return (
         <ScrollView>
             <View className="flex ">
-                <Input placeholder='BASIC INPUT' type="text" value={newChat} onChangeText={handleChange} />
+                <Input id="" placeholder='Write your message..' type="text" value={newChat} onChangeText={handleChange} />
                 <Icon
                     name='sc-telegram'
                     type='evilicon'

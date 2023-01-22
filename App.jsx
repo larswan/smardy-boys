@@ -7,12 +7,18 @@ const Stack = createNativeStackNavigator();
 import Home from './components/Home';
 import TestScreen from './components/TestScreen';
 import ChatScreen from './components/ChatScreen';
+import SignIn from './components/SignIn';
 
 export default function App() {
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
+          options={{ title: 'SignIn' }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}
