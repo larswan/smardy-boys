@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         display: 'block',
-        margin: '30px 0',
+        padding: 30,
         backgroundColor: 'pink',
         alignItems: 'center',
         justifyContent: 'center',

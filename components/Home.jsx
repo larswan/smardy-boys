@@ -31,7 +31,7 @@ const Home = ({navigation}) => {
 
 export default Home
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'pink',
@@ -41,10 +41,5 @@ export const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: 'pink',
         marginHorizontal: 20,
-    },
-    // header: {
-    //   fontSize: 40,
-    //   color: 'red',
-    //   backgroundColor: 'red'
-    // }
+    }
 });
