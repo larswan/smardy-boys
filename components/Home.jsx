@@ -2,7 +2,7 @@ import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, Touchabl
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 
-const Home = () => {
+const Home = ({navigation}) => {
 
     return(
         <View style={styles.container}>
@@ -15,8 +15,14 @@ const Home = () => {
                 >
                     <Text className="p-2 m-2 text-white ">Touch this to find out!</Text>
                 </TouchableOpacity>
+
                 <View>
-                    <Text className="text-white font-italics pt-4">Content</Text>
+                    <Button
+                        title="Go to TestScreen"
+                        onPress={() =>
+                            navigation.navigate('TestScreen')
+                        }
+                    />
                 </View>
             </ScrollView>
         </View>
@@ -25,7 +31,7 @@ const Home = () => {
 
 export default Home
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'pink',
