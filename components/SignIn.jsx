@@ -1,6 +1,8 @@
 import { Alert, Modal, Image, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
 import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const SignIn = ({navigation}) => {
     const [username, setUsername] = useState('')
@@ -8,18 +10,28 @@ const SignIn = ({navigation}) => {
 
     const handleSubmit = () => {
         
-        // add a post request
+        // add a post request for login
         const loginSubmit = async () => {
             let req = await fetch(``)
             let res = await req.json()
             return res
         }
-        // loginSubmit()
         
         // change to if res.ok
         if(password && username){
             Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-            navigation.navigate('TestScreen')
+            navigation.push('BuddyList')
+
+            // storeJWT(res.jwt)
+        }
+
+        // Stores the JWT in local storage
+        const storeJWT = async (jwt) => {
+            try {
+                await AsyncStorage.setItem('jwt', jwt);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 

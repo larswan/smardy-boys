@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
+import BuddyList from './components/BuddyList';
 import Home from './components/Home';
 import TestScreen from './components/TestScreen';
 import ChatScreen from './components/ChatScreen';
@@ -17,12 +18,24 @@ export default function App() {
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{ title: 'SignIn' }}
+          options={{ title: 'SignIn',
+            headerStyle: {
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+         }}
         />
         <Stack.Screen
           name="Home"
           component={Home}
           options={{ title: 'Welcome' }}
+        />
+        <Stack.Screen
+          name="BuddyList"
+          component={BuddyList}
+          options={{ title: 'Buddies' }}
         />
         <Stack.Screen 
         name="TestScreen"
