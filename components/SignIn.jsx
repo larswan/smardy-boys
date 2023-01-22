@@ -1,7 +1,8 @@
-import { Alert, Modal, Image, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Modal, KeyboardAvoidingView, Image, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
 import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const SignIn = ({navigation}) => {
@@ -22,43 +23,47 @@ const SignIn = ({navigation}) => {
             Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
             navigation.push('BuddyList')
 
-            // storeJWT(res.jwt)
+            // storeData(res.jwt)
         }
 
         // Stores the JWT in local storage
-        const storeJWT = async (jwt) => {
+        const storeData = async (value) => {
             try {
-                await AsyncStorage.setItem('jwt', jwt);
-            } catch (error) {
-                console.log(error);
+                const jsonValue = JSON.stringify(value)
+                await AsyncStorage.setItem('@storage_Key', jsonValue)
+            } catch (e) {
+                // saving error
             }
         }
     }
 
     return (
-        <ScrollView containerStyle={styles.container}>
-            <Image 
-            // style={styles.image} 
-            className="w-full justify-center "
-            source={require ("../assets/signInSplash.png")}/>
-            <Input name="username" placeholder='Username' type="text" onChangeText={(username)=>{setUsername(username)}} />
-            <Input name="password" placeholder='Password' type="password" secureTextEntry={true} onChangeText={(password) => {setPassword(password) }} />
-            <Button
-                title="Login"
-                onPress={()=>{handleSubmit()}}
-                buttonStyle={{
-                    borderColor: 'black',
-                }}
-                type="outline"
-                raised
-                titleStyle={{ color: 'black' }}
-                containerStyle={{
-                    width: 200,
-                    marginHorizontal: 50,
-                    marginVertical: 10,
-                }}
-            />
-        </ScrollView>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <ScrollView containerStyle={styles.container}>
+                <Image 
+                // style={styles.image} 
+                className="w-full justify-center "
+                source={require ("../assets/signInSplash.png")}/>
+                <Input name="username" placeholder='Username' type="text" onChangeText={(username)=>{setUsername(username)}} />
+                <Input name="password" placeholder='Password' type="password" secureTextEntry={true} onChangeText={(password) => {setPassword(password) }} />
+                <Button
+                    title="Login"
+                    onPress={()=>{handleSubmit()}}
+                    buttonStyle={{
+                        borderColor: 'black',
+                    }}
+                    type="outline"
+                    raised
+                    titleStyle={{ color: 'black' }}
+                    containerStyle={{
+                        width: 200,
+                        marginHorizontal: 50,
+                        marginVertical: 10,
+                    }}
+                />
+            </ScrollView>
+        </KeyboardAvoidingView>
+
     )
 }
 export default SignIn

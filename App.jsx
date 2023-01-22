@@ -12,6 +12,13 @@ import SignIn from './components/SignIn';
 
 export default function App() {
 
+  BuddyList.navigationOptions = {
+    headerTitle: 'BuddyList',
+    headerLeft: () => {
+      return null;
+    },
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -35,7 +42,10 @@ export default function App() {
         <Stack.Screen
           name="BuddyList"
           component={BuddyList}
-          options={{ title: 'Buddies' }}
+          
+          options={{ title: 'Buddies',
+            headerLeft: () => null,
+          }}
         />
         <Stack.Screen 
         name="TestScreen"
