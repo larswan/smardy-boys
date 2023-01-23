@@ -1,6 +1,6 @@
 import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
-import { Button } from '@rneui/themed';
+import { Button, LinearGradient } from '@rneui/themed';
 
 
 const TestScreen = ({ navigation }) => {
@@ -9,7 +9,15 @@ const TestScreen = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text>TEST SCREEEEEN</Text>
-            <TextInput>Replace this text with your name name</TextInput>
+            <TextInput >Replace this text with your name name</TextInput>
+            <Button style={styles.button}>Poop</Button>
+            <Button ViewComponent={LinearGradient} // Don't forget this!
+                linearGradientProps={{
+                    colors: ['#FF9800', '#F44336'],
+                    start: { x: 0, y: 0.5 },
+                    end: { x: 1, y: 0.5 },
+                }}>Secondary</Button>
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -74,9 +82,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         elevation: 2,
+        color: 'black',
     },
     buttonOpen: {
-        backgroundColor: '#F194FF',
+        backgroundColor: 'black',
     },
     buttonClose: {
         backgroundColor: '#2196F3',
