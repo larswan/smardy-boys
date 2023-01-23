@@ -1,6 +1,7 @@
 import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
-import { Button, LinearGradient } from '@rneui/themed';
+import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+
 
 
 const TestScreen = ({ navigation }) => {
@@ -9,15 +10,20 @@ const TestScreen = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text>TEST SCREEEEEN</Text>
+            <View className="flex ">
+                <Input placeholder='BASIC INPUT' className='' />
+                <Icon
+                    name='sc-telegram'
+                    type='evilicon'
+                    color='#517fa4'
+                />
+            </View>
             <TextInput >Replace this text with your name name</TextInput>
             <Button style={styles.button}>Poop</Button>
             <Button ViewComponent={LinearGradient} // Don't forget this!
-                linearGradientProps={{
-                    colors: ['#FF9800', '#F44336'],
-                    start: { x: 0, y: 0.5 },
-                    end: { x: 1, y: 0.5 },
-                }}>Secondary</Button>
-
+                color="red" className="mb-6">Secondary</Button>
+            <Divider inset={true} insetType="middle" />
+            {/* <Divider /> */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'block',
         padding: 30,
-        backgroundColor: 'pink',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
