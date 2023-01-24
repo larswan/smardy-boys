@@ -10,6 +10,17 @@ const SignIn = ({navigation}) => {
     const [password, setPassword] = useState('')
     console.log(Config)
 
+    const storeUsername = async () => {
+        try {
+            //👇🏻 async function - saves the username to AsyncStorage
+            //   redirecting to the Chat page
+            await AsyncStorage.setItem("username", username);
+            navigation.navigate("ChatScreen");
+        } catch (e) {
+            Alert.alert("Error! While saving username");
+        }
+    };
+
     const handleSubmit = () => {
         
         // add a post request for login
@@ -22,8 +33,8 @@ const SignIn = ({navigation}) => {
         // change to if res.ok
         if(password && username){
             Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-            navigation.push('BuddyList')
-
+            // navigation.push('BuddyList')
+            storeUsername()
             // storeData(res.jwt)
         }
 

@@ -11,11 +11,11 @@ import {
   Tinos_700Bold_Italic,
 } from '@expo-google-fonts/tinos';
 
-import BuddyList from './components/BuddyList';
-import Home from './components/Home';
-import TestScreen from './components/TestScreen';
-import ChatScreen from './components/ChatScreen';
-import SignIn from './components/SignIn';
+import BuddyList from './screens/BuddyList';
+import Home from './screens/Home';
+import TestScreen from './screens/TestScreen';
+import ChatScreen from './screens/ChatScreen';
+import SignIn from './screens/SignIn';
 
 const Stack = createNativeStackNavigator();
 
