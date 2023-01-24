@@ -8,9 +8,9 @@ def run_seeds():
     print('Seeding database ... 🌱')
     # Add your seed data here
     with app.app_context():
-      user1 = User('canweplease', 'prettyplease@example.com', 'talkaboutpussy')
-      user2 = User('colter', 'colter@example.com', 'colter')
-      user3 = User('larson', 'larson@example.com', 'larson')
+      user1 = User('canweplease', 'talkaboutpussy')
+      user2 = User('colter', '1111')
+      user3 = User('larson', '2222')
       db.session.add_all([user1, user2, user3])
       db.session.commit()
       user = User.query.first()

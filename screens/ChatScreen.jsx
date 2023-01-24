@@ -8,6 +8,15 @@ import io from 'socket.io-client'
 const ChatScreen = () => {
     const [newChat, setNewChat] = useState("")
     let socket
+
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@storage_Key')
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch (e) {
+            // error reading value
+        }
+    }
     
  
     useEffect(() => {
@@ -37,7 +46,7 @@ const ChatScreen = () => {
     };
     
     const handleMessage = async() => {
-        socket.emit("message", { message: newChat});
+        socket.emit("message", { token: token, message: newChat});
         console.log("its runnin")
         // let req = await fetch("")
 

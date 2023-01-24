@@ -10,6 +10,7 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 app = Flask(__name__, static_folder='public')
 CORS(app, origins=['*'])
 app.config.from_object(Config)
+jwt = JWTManager(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 socketio = SocketIO(app, cors_allowed_origins='*')
@@ -46,7 +47,7 @@ def users():
 
 @app.post('/login')
 def login():
-    data = request.form
+    data = request.json
     user = User.query.filter_by(screen_name=data['screen_name']).first()
     if not user:
         return jsonify({'error': 'No user found'}), 404

@@ -23,7 +23,7 @@ const SignIn = ({navigation}) => {
     const handleSubmit = () => {
         // add a post request for login
         const loginSubmit = async () => {
-            let req = await fetch(`http://10.129.2.101:3000/users`, {
+            let req = await fetch(`http://10.129.2.101:3000/login`, {
                 method: "POST",
                 headers: {
                     'Accept' : 'application/json',
@@ -31,17 +31,17 @@ const SignIn = ({navigation}) => {
                 },
                 body: JSON.stringify({
                     screen_name: username,
-                    password: password
+                    password: password,
                 })
             })
-
-            let res = await req.json()   
-            if (res.ok) {
+            // console.log(req)
+            if (req.ok) {
                 Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-                // navigation.push('BuddyList')
+                navigation.push('ChatScreen')
                 // storeUsername()
-                console.log(res)
-                // storeData(res.jwt)
+                let res = await req.json()  
+                console.log(res.token)
+                storeData(res.token)
             }
         }
         loginSubmit()
