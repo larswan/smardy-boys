@@ -10,7 +10,7 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     screen_name = db.Column(db.String(80))  # nullable=False
-    email = db.Column(db.String(120), unique=True)  # nullable=False
+    email = db.Column(db.String(120), unique=True, nullable=True)  # nullable=False
     password = db.Column(db.String(120))  # nullable=False
     away_message = db.Column(db.String(120))  # nullable=False
     active = db.Column(db.Boolean, default=False)
@@ -19,9 +19,9 @@ class User(db.Model):
 
     # this is basic python classes
     # Here is where we whitelist what can be set on create by a user client
-    def __init__(self, screen_name, email, password, away_message="not here", active=False):
+    def __init__(self, screen_name, password, away_message="not here", active=False):
         self.screen_name = screen_name
-        self.email = email
+        # self.email = email
         self.away_message = away_message
         self.password = password
         self.active = active
