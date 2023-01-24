@@ -3,7 +3,7 @@ import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, Touchabl
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Config from 'react-native-config';
-import { useFonts, DotGothic16_400Regular } from '@expo-google-fonts/dotgothic16';
+import {useFonts, DotGothic16_400Regular, Tinos_400Regular, Tinos_400Regular_Italic, Tinos_700Bold, Tinos_700Bold_Italic } from '@expo-google-fonts/dotgothic16';
 
 
 import BuddyList from './components/BuddyList';
@@ -19,6 +19,10 @@ export default function App() {
 
   let [fontsLoaded] = useFonts({
     DotGothic16_400Regular,
+    Tinos_400Regular,
+    Tinos_400Regular_Italic,
+    Tinos_700Bold,
+    Tinos_700Bold_Italic,
   });
 
   let fontSize = 24;
@@ -45,7 +49,7 @@ export default function App() {
             headerTintColor: 'white',
             headerTitleStyle: {
               fontWeight: 'bold',
-              fontFamily: 'DotGothic16_400Regular'
+              fontFamily: 'Tinos_700Bold'
             },
          }}
         />
