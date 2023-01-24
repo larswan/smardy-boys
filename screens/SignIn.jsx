@@ -4,11 +4,9 @@ import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from "react-native-config";
 
-
 const SignIn = ({navigation}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    console.log(Config)
 
     // Stores the JWT in local storage
     const storeData = async (value) => {
@@ -34,11 +32,9 @@ const SignIn = ({navigation}) => {
                     password: password,
                 })
             })
-            // console.log(req)
             if (req.ok) {
                 Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
                 navigation.push('ChatScreen')
-                // storeUsername()
                 let res = await req.json()  
                 console.log(res)
                 storeData(res)
