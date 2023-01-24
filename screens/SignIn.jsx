@@ -10,43 +10,41 @@ const SignIn = ({navigation}) => {
     const [password, setPassword] = useState('')
     console.log(Config)
 
-    const storeUsername = async () => {
+    // Stores the JWT in local storage
+    const storeData = async (value) => {
         try {
-            //👇🏻 async function - saves the username to AsyncStorage
-            //   redirecting to the Chat page
-            await AsyncStorage.setItem("username", username);
-            navigation.navigate("ChatScreen");
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('@storage_Key', jsonValue)
         } catch (e) {
-            Alert.alert("Error! While saving username");
+            Alert.alert(`error storing token`)
         }
-    };
+    }
 
     const handleSubmit = () => {
-        
         // add a post request for login
         const loginSubmit = async () => {
-            let req = await fetch(``)
-            let res = await req.json()
-            return res
-        }
-        
-        // change to if res.ok
-        if(password && username){
-            Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-            // navigation.push('BuddyList')
-            storeUsername()
-            // storeData(res.jwt)
-        }
-
-        // Stores the JWT in local storage
-        const storeData = async (value) => {
-            try {
-                const jsonValue = JSON.stringify(value)
-                await AsyncStorage.setItem('@storage_Key', jsonValue)
-            } catch (e) {
-                // saving error
+            let req = await fetch(`http://10.129.2.101:3000/login`, {
+                method: "POST",
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    screen_name: username,
+                    password: password,
+                })
+            })
+            // console.log(req)
+            if (req.ok) {
+                Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
+                navigation.push('ChatScreen')
+                // storeUsername()
+                let res = await req.json()  
+                console.log(res.token)
+                storeData(res.token)
             }
         }
+        loginSubmit()
     }
 
     return (
