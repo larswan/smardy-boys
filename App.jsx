@@ -2,7 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
+import Config from 'react-native-config';
+import { useFonts, DotGothic16_400Regular } from '@expo-google-fonts/dotgothic16';
+
 
 import BuddyList from './components/BuddyList';
 import Home from './components/Home';
@@ -10,7 +12,17 @@ import TestScreen from './components/TestScreen';
 import ChatScreen from './components/ChatScreen';
 import SignIn from './components/SignIn';
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
+  // console.log(Config)
+
+  let [fontsLoaded] = useFonts({
+    DotGothic16_400Regular,
+  });
+
+  let fontSize = 24;
+  let paddingVertical = 6;
 
   BuddyList.navigationOptions = {
     headerTitle: 'BuddyList',
@@ -19,18 +31,21 @@ export default function App() {
     },
   };
 
+  if(fontsLoaded){
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{ title: 'SignIn',
+          options={{ title: 'Sign On',
             headerStyle: {
+              backgroundColor: '#181372'
             },
             headerTintColor: 'white',
             headerTitleStyle: {
               fontWeight: 'bold',
+              fontFamily: 'DotGothic16_400Regular'
             },
          }}
         />
@@ -58,6 +73,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>     
   );
+}
 }
 
 

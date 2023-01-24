@@ -2,12 +2,13 @@ import { Alert, Modal, KeyboardAvoidingView, Image, ViewAlert, Pressable, Scroll
 import { useState } from 'react';
 import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Config from "react-native-config";
 
 
 const SignIn = ({navigation}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    console.log(Config)
 
     const handleSubmit = () => {
         
@@ -44,6 +45,7 @@ const SignIn = ({navigation}) => {
                 // style={styles.image} 
                 className="w-full justify-center "
                 source={require ("../assets/signInSplash.png")}/>
+                <Text>Poopoo{Config.SECRET_TEST}</Text>
                 <Input name="username" placeholder='Username' type="text" onChangeText={(username)=>{setUsername(username)}} />
                 <Input name="password" placeholder='Password' type="password" secureTextEntry={true} onChangeText={(password) => {setPassword(password) }} />
                 <Button

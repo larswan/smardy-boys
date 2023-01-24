@@ -1,6 +1,6 @@
 # smardy-boys
 
-dark header color #fbcf2d
+dark header color #181372
 aim guy yellow #fbcf2d
 aol logo lighter blue #025ef8
 
