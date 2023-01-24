@@ -1,6 +1,8 @@
 import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // import socket from "../utils/socket";
 import io from 'socket.io-client'
 
@@ -8,11 +10,14 @@ import io from 'socket.io-client'
 const ChatScreen = () => {
     const [newChat, setNewChat] = useState("")
     let socket
+    let token
 
     const getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@storage_Key')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
+            jsonValue != null ? token = JSON.parse(jsonValue) : null;
+            console.log(token)
+            
         } catch (e) {
             // error reading value
         }
@@ -20,6 +25,8 @@ const ChatScreen = () => {
     
  
     useEffect(() => {
+    getData()
+
     socket = io("http://10.129.2.101:3000")
 
     socket.on("connect", (data) => {
@@ -41,23 +48,20 @@ const ChatScreen = () => {
 
     }, [])
 
-    const handleCreateRoom = () => {
-        //👇🏻 sends a message containing the group name to the server
-    };
-    
     const handleMessage = async() => {
-        socket.emit("message", { token: token, message: newChat});
-        console.log("its runnin")
+
+        // socket.emit("message", { token: token, message: newChat});
+        // console.log(token)
         // let req = await fetch("")
 
         setNewChat("")
     }
     const handleChange = (e) => {
         setNewChat(e)
-        console.log(newChat)
+        // console.log(newChat)
     }
     
-    console.log(newChat)
+    // console.log(newChat)
 
     return (
         <ScrollView>
