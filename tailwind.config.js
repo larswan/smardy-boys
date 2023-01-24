@@ -2,8 +2,8 @@
 module.exports = {
   content: [
     "./App.jsx",
-    "./components/*.jsx",
-    "./components/Home.jsx",
+    "./screens/*.jsx",
+    "./screens/Home.jsx",
     "./Home.jsx"
   ],
   theme: {

@@ -1,12 +1,45 @@
 import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+// import socket from "../utils/socket";
+import io from 'socket.io-client'
+
 
 const ChatScreen = () => {
-
     const [newChat, setNewChat] = useState("")
+    let socket
+    
+ 
+    useEffect(() => {
+    socket = io("http://10.129.2.101:3000")
+
+    socket.on("connect", (data) => {
+        console.log("Sockets are socking");
+    });
+
+    
+    socket.on('message', (data) => {
+        console.log('Socket.io message received:', data);
+    });
+    
+    socket.on("disconnect", (data) => {
+        console.log("Scokets aint socking");
+    });
+
+    return function cleanup() {
+        socket.disconnect();
+        };
+
+    }, [])
+
+    const handleCreateRoom = () => {
+        //👇🏻 sends a message containing the group name to the server
+    };
+    
     const handleMessage = async() => {
-        let req = await fetch("")
+        socket.emit("message", { message: newChat});
+        console.log("its runnin")
+        // let req = await fetch("")
 
         setNewChat("")
     }

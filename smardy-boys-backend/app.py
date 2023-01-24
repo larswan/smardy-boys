@@ -26,21 +26,21 @@ def example():
 
 @socketio.on('connect')
 def connected():
-    '''This function is an event listener that gets called when the client connects to the server'''
+    # '''This function is an event listener that gets called when the client connects to the server'''
     print(f'Client {request.sid} has connected')
     emit('connect', {'data': f'id: {request.sid} is connected'})
 
 
-@socketio.on('data')
+@socketio.on('message')
 def handle_message(data):
-    '''This function runs whenever a client sends a socket message to be broadcast'''
+    # '''This function runs whenever a client sends a socket message to be broadcast'''
     print(f'Message from Client {request.sid} : ', data)
     emit('data', {'data': 'data', 'id': request.sid}, broadcast=True)
 
 
 @socketio.on("disconnect")
 def disconnected():
-    '''This function is an event listener that gets called when the client disconnects from the server'''
+    # '''This function is an event listener that gets called when the client disconnects from the server'''
     print(f'Client {request.sid} has disconnected')
     emit('disconnect',
          f'Client {request.sid} has disconnected', broadcast=True)
