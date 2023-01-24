@@ -40,8 +40,8 @@ const SignIn = ({navigation}) => {
                 navigation.push('ChatScreen')
                 // storeUsername()
                 let res = await req.json()  
-                console.log(res.token)
-                storeData(res.token)
+                console.log(res)
+                storeData(res)
             }
         }
         loginSubmit()
