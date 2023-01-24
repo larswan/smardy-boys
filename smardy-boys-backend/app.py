@@ -68,9 +68,11 @@ def connected():
 
 
 @socketio.on('message')
+@jwt_required()
 def handle_message(data):
     # '''This function runs whenever a client sends a socket message to be broadcast'''
-    print(f'Message from Client {request.sid} : ', data)
+    current_user = get_jwt_identity()
+    print(f'Message from Client {current_user.screen_name} : ', data)
     emit('data', {'data': 'data', 'id': request.sid}, broadcast=True)
 
 
