@@ -3,8 +3,13 @@ import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, Touchabl
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Config from 'react-native-config';
-import {useFonts, DotGothic16_400Regular, Tinos_400Regular, Tinos_400Regular_Italic, Tinos_700Bold, Tinos_700Bold_Italic } from '@expo-google-fonts/dotgothic16';
-
+import {useFonts, DotGothic16_400Regular } from '@expo-google-fonts/dotgothic16';
+import {
+  Tinos_400Regular,
+  Tinos_400Regular_Italic,
+  Tinos_700Bold,
+  Tinos_700Bold_Italic,
+} from '@expo-google-fonts/tinos';
 
 import BuddyList from './components/BuddyList';
 import Home from './components/Home';
@@ -49,30 +54,70 @@ export default function App() {
             headerTintColor: 'white',
             headerTitleStyle: {
               fontWeight: 'bold',
-              fontFamily: 'Tinos_700Bold'
+              fontFamily: 'DotGothic16_400Regular'
             },
          }}
         />
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{ title: 'Welcome' }}
+          options={{
+            title: 'Home',
+            headerStyle: {
+              backgroundColor: '#181372'
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontFamily: 'DotGothic16_400Regular'
+            },
+          }}
         />
         <Stack.Screen
           name="BuddyList"
           component={BuddyList}
           
-          options={{ title: 'Buddies',
-            headerLeft: () => null,
+          options={{
+            title: 'Buddies',
+            headerStyle: {
+              backgroundColor: '#181372'
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontFamily: 'DotGothic16_400Regular'
+            },
           }}
         />
         <Stack.Screen 
         name="TestScreen"
         component={TestScreen}
+        options={{
+          title: 'Test Screen',
+          headerStyle: {
+            backgroundColor: '#181372'
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontFamily: 'DotGothic16_400Regular'
+          },
+        }}
         />
         <Stack.Screen 
         name="ChatScreen"
         component={ChatScreen}
+        options={{
+          title: 'Chat',
+          headerStyle: {
+            backgroundColor: '#181372'
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontFamily: 'DotGothic16_400Regular'
+          },
+        }}
         />
       </Stack.Navigator>
     </NavigationContainer>     
