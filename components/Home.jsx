@@ -24,6 +24,14 @@ const Home = ({navigation}) => {
                         }
                     />
                 </View>
+                <View>
+                    <Button
+                        title="CHAT!"
+                        onPress={() =>
+                            navigation.navigate('ChatScreen')
+                        }
+                    />
+                </View>
             </ScrollView>
         </View>
     )
