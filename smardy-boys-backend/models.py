@@ -19,7 +19,7 @@ class User(db.Model):
 
     # this is basic python classes
     # Here is where we whitelist what can be set on create by a user client
-    def __init__(self, screen_name, email, away_message, password, active):
+    def __init__(self, screen_name, email, password, away_message="not here", active=False):
         self.screen_name = screen_name
         self.email = email
         self.away_message = away_message
@@ -53,7 +53,7 @@ class Message(db.Model):
 
     # this is basic python classes
     # Here is where we whitelist what can be set on create by a user client
-    def __init__(self, content, userId, seen):
+    def __init__(self, content, userId, seen=False):
         self.content = content
         self.userId = userId
         self.seen = seen

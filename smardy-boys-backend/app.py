@@ -23,6 +23,14 @@ def home():
 def example():
     return {'message': 'Your app is running python'}
 
+# run user.to_dict() for every user in users
+
+
+@app.get('/users')
+def all_users():
+    users = User.query.all()
+    User.query.count()
+    return jsonify([user.to_dict() for user in users])
 
 @socketio.on('connect')
 def connected():
