@@ -3,8 +3,9 @@ import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, T
 const Message = ({message}) => {
     
     return(
-        <View>
+        <View key={message.id}>
             <Text>{message.content}</Text>
+            <View style={{borderBottomColor: 'black', borderBottomWidth: '1px'}}  ></View>
         </View>
     )
 }

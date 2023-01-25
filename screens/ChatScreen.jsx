@@ -8,73 +8,67 @@ import Message from '../components/Message.jsx'
 const ChatScreen = () => {
     const [newChat, setNewChat] = useState("")
     const [messages, setMessages] =useState()
-    let socket
+    const socket = io("http://10.129.2.101:3000")
     let token
 
-    const getData = async () => {
+    // typing
+    const handleChange = (e) => {
+        setNewChat(e)
+    }
+
+    // Get user object from local storage
+    const getLocalUser = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@storage_Key')
             jsonValue != null ? token = JSON.parse(jsonValue) : null;
-            // console.log(token)
         } catch (e) {
             // error reading value
         }
     }
  
-    useEffect(() => {
-    socket = io("http://10.129.2.101:3000")
+    useEffect( () => {
+        // estabishing sockets
+        const connect = async () =>  {
+        socket.on("connect", (data) => {
+            console.log("Sockets are socking");
+        });
 
-    socket.on("connect", (data) => {
-        console.log("Sockets are socking");
-    });
+        socket.on("message", (data) => {
+            setMessages(prevState => [data, ...prevState])
+            // console.log(data);
+        });
 
-    socket.on('message', (data) => {
-        console.log('Socket.io message received:', data);
-    });
-    
-    socket.emit("message", "this is a message from the client");
+        socket.on("disconnect", (data) => {
+            console.log("Scokets aint socking");
+        });
 
-    
-    socket.on("disconnect", (data) => {
-        console.log("Scokets aint socking");
-    });
-
-    return function cleanup() {
-        socket.disconnect();
+        return function cleanup() {
+            socket.disconnect();
         }; 
-    }, [])
+        }
 
+        // fetch all prior messages
 
-    useEffect(  ()=>{
-            // await getData()
-
-        const request  = async() => {
-            let req = await fetch(`http://10.129.2.101:3000/messages`, {
-                // method: "GET",
-                // headers: {
-                //     'Accept': 'application/json',
-                //     'Content-Type': 'application/json'
-                // },
-                // body: JSON.stringify({
-                //     userId: token.user.id,
-                // })
-            })
+        const getMessages  = async() => {
+            let req = await fetch(`http://10.129.2.101:3000/messages`)
             let res = await req.json()
-            // console.log(res)
             setMessages(res)
         }
-        request()
+        connect()
+        getMessages()
+
     },[])
 
     const handleMessage = async() => {
+        await getLocalUser()
 
-        // let req = await fetch("")
-        await getData()
+        // regular post message post request 
         let req = await fetch(`http://10.129.2.101:3000/messages`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
+                // add in token
             },
             body: JSON.stringify({
                 content: newChat,
@@ -83,20 +77,23 @@ const ChatScreen = () => {
             })
         })
         let res = await req.json()
-        // console.log(res)
+
+        socket.emit("message", res);
         setNewChat("")
-    }
-    const handleChange = (e) => {
-        setNewChat(e)
-        // console.log(newChat)
     }
 
     return (
         <ScrollView>
             <View className="flex ">
+                <Input id="" placeholder='Write your message..' type="text" value={newChat} onChangeText={handleChange} />
+                <Icon
+                    name='sc-telegram'
+                    type='evilicon'
+                    color='#517fa4'
+                    onPress={() => { handleMessage() }}
+                />
                 { 
-                    messages? 
-                            messages.map((message)=> {
+                    messages?  messages.map((message)=> {
                                 return(
                                 <Message message={message} />
                                 )
@@ -104,13 +101,6 @@ const ChatScreen = () => {
                             )
                            : null
                 }
-                <Input id="" placeholder='Write your message..' type="text" value={newChat} onChangeText={handleChange} />
-                <Icon
-                    name='sc-telegram'
-                    type='evilicon'
-                    color='#517fa4'
-                    onPress={()=>{handleMessage()}}
-                />
             </View>
         </ScrollView>
     )
