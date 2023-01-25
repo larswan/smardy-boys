@@ -46,7 +46,8 @@ def users():
 
 @app.get('/messages')
 def all_mesages():
-    messages = Message.query.all()
+    allMessages = Message.query.all()
+    messages = allMessages[::-1]
     Message.query.count()
     return jsonify([message.to_dict() for message in messages])
 

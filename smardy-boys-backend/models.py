@@ -58,12 +58,17 @@ class Message(db.Model):
         self.userId = userId
         self.seen = False
 
+    def ownerName(self):
+        owner = User.query.get(self.userId)
+        return owner.screen_name
+
     def to_dict(self):  # this is how we serialize (similar to_json)
         return {
             'content': self.content,
             'id': self.id,
             'seen': self.seen,
             'userId': self.userId,
+            'screen_name': self.ownerName()
         }
 
     def __repr__(self): # simple return of the instance

@@ -7,6 +7,7 @@ import Message from '../components/Message.jsx'
 
 const ChatScreen = () => {
     const [newChat, setNewChat] = useState("")
+    const [screenName, setScreenName] = useState("")
     const [messages, setMessages] =useState()
     const socket = io("http://10.129.2.101:3000")
     let token
@@ -21,10 +22,13 @@ const ChatScreen = () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@storage_Key')
             jsonValue != null ? token = JSON.parse(jsonValue) : null;
+            setScreenName(token.user.screen_name)
         } catch (e) {
+            console.log('do or do not, there is no try')
             // error reading value
         }
     }
+    getLocalUser()
  
     useEffect( () => {
         // estabishing sockets
@@ -60,7 +64,6 @@ const ChatScreen = () => {
     },[])
 
     const handleMessage = async() => {
-        await getLocalUser()
 
         // regular post message post request 
         let req = await fetch(`http://10.129.2.101:3000/messages`, {
@@ -84,18 +87,39 @@ const ChatScreen = () => {
 
     return (
         <ScrollView>
-            <View className="flex ">
-                <Input id="" placeholder='Write your message..' type="text" value={newChat} onChangeText={handleChange} />
-                <Icon
-                    name='sc-telegram'
-                    type='evilicon'
-                    color='#517fa4'
-                    onPress={() => { handleMessage() }}
-                />
+            <View className="p-4">
+                <View className='flex-row w-auto justify-evenly'>
+                <Input 
+                    containerStyle={{}}
+                    // disabledInputStyle={{ background: "#ddd" }}
+                    inputContainerStyle={{}}
+                    // errorMessage="Oops! that's not correct."
+                    errorStyle={{}}
+                    errorProps={{}}
+                    inputStyle={{}}
+                    label="Talk about it..."
+                    labelStyle={{}}
+                    labelProps={{}}
+                    rightIcon={<Icon
+                        size={15}
+                        color="grey"
+                        reverse
+                        reverseColor="white"
+                        underlayColor="white"
+                        name='sc-telegram'
+                        type='evilicon'
+                        onPress={() => { handleMessage() }}
+                    />}
+                    rightIconContainerStyle={{}}
+                    placeholder='Write your message..'
+                    type="text"
+                    value={newChat}
+                    onChangeText={handleChange} />
+                </View>
                 { 
                     messages?  messages.map((message)=> {
                                 return(
-                                <Message message={message} />
+                                <Message message={message} screenName={screenName}/>
                                 )
                                 }
                             )
