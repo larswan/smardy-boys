@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from config import Config
 from models import db, User, Message
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
 app = Flask(__name__, static_folder='public')
@@ -37,13 +37,27 @@ def all_users():
 
 @app.post('/users')
 def users():
-    data = request.form
+    data = request.json
     user = User(data['screen_name'], data['password'])
     print(data)
     db.session.add(user)
     db.session.commit()
     return jsonify(user.to_dict()), 201
 
+@app.get('/messages')
+def all_mesages():
+    messages = Message.query.all()
+    Message.query.count()
+    return jsonify([message.to_dict() for message in messages])
+
+@app.post('/messages')
+def messages():
+    data = request.json
+    message = Message(data['content'], data['userId'])
+    print(data)
+    db.session.add(message)
+    db.session.commit()
+    return jsonify(message.to_dict()), 201
 
 @app.post('/login')
 def login():
@@ -67,13 +81,15 @@ def connected():
     emit('connect', {'data': f'id: {request.sid} is connected'})
 
 
-@socketio.on('message')
-@jwt_required()
-def handle_message(data):
     # '''This function runs whenever a client sends a socket message to be broadcast'''
-    current_user = get_jwt_identity()
-    print(f'Message from Client {current_user.screen_name} : ', data)
-    emit('data', {'data': 'data', 'id': request.sid}, broadcast=True)
+@socketio.on('message')
+# @jwt_required()
+def handle_message(data):
+    # user = User.query.get(id)
+    # if user:
+    #     current_user = get_jwt_identity()
+    print(f'Message from Client {request.sid} : ', data)
+    emit('message', 'message from server', broadcast=True)
 
 
 @socketio.on("disconnect")
@@ -82,6 +98,22 @@ def disconnected():
     print(f'Client {request.sid} has disconnected')
     emit('disconnect',
          f'Client {request.sid} has disconnected', broadcast=True)
+
+
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    send(username + ' has entered the room.', to=room)
+
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', to=room)
 
 
 if __name__ == '__main__':

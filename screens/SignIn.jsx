@@ -46,10 +46,10 @@ const SignIn = ({navigation}) => {
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <ScrollView containerStyle={styles.container}>
-                <Image 
+                {/* <Image 
                 // style={styles.image} 
                 className="w-full justify-center "
-                source={require ("../assets/signInSplash.png")}/>
+                source={require ("../assets/signInSplash.png")}/> */}
                 <Text>Poopoo{Config.SECRET_TEST}</Text>
                 <Input name="username" placeholder='Username' type="text" onChangeText={(username)=>{setUsername(username)}} />
                 <Input name="password" placeholder='Password' type="password" secureTextEntry={true} onChangeText={(password) => {setPassword(password) }} />

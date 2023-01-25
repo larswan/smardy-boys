@@ -53,16 +53,17 @@ class Message(db.Model):
 
     # this is basic python classes
     # Here is where we whitelist what can be set on create by a user client
-    def __init__(self, content, userId, seen=False):
+    def __init__(self, content, userId):
         self.content = content
         self.userId = userId
-        self.seen = seen
+        self.seen = False
 
     def to_dict(self):  # this is how we serialize (similar to_json)
         return {
             'content': self.content,
+            'id': self.id,
+            'seen': self.seen,
             'userId': self.userId,
-            'seen': self.seen
         }
 
     def __repr__(self): # simple return of the instance
