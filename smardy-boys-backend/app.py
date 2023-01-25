@@ -54,7 +54,7 @@ def all_mesages():
 def messages():
     data = request.json
     message = Message(data['content'], data['userId'])
-    print(data)
+    # print(data)
     db.session.add(message)
     db.session.commit()
     return jsonify(message.to_dict()), 201
@@ -89,7 +89,7 @@ def handle_message(data):
     # if user:
     #     current_user = get_jwt_identity()
     print(f'Message from Client {request.sid} : ', data)
-    emit('message', 'message from server', broadcast=True)
+    emit('message', data, broadcast=True)
 
 
 @socketio.on("disconnect")
