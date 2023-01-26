@@ -13,6 +13,7 @@ const SignIn = ({navigation}) => {
         try {
             const jsonValue = JSON.stringify(value)
             await AsyncStorage.setItem('@storage_Key', jsonValue)
+            console.log(jsonValue)
         } catch (e) {
             Alert.alert(`error storing token`)
         }
@@ -34,10 +35,11 @@ const SignIn = ({navigation}) => {
             })
             if (req.ok) {
                 Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-                navigation.push('BuddyList')
                 let res = await req.json()  
-                console.log(res)
                 storeData(res)
+                navigation.push('BuddyList', {
+                    token: res,
+                })
             }
             else{
                 Alert.alert(`Unrecognized username or password`)

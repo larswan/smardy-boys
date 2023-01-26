@@ -6,26 +6,28 @@ import User from '../components/User.jsx'
 import io from 'socket.io-client'
 
 
-const BuddyList = ({navigation}) => {
-    // const [screenName, setScreenName] = useState("")
+const BuddyList = ({navigation, route}) => {
     const [allUsers, setAllUsers] =useState()
     const socket = io("http://172.19.80.142:3000")
-    let token
+    // const [token, setToken] = useState()
+    const { token } = route.params
+
 
     // Get user object from local storage
-    const getLocalUser = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@storage_Key')
-            jsonValue != null ? token = JSON.parse(jsonValue) : null;
-            setScreenName(token.user.screen_name)
-        } catch (e) {
-            console.log('do or do not, there is no try')
-            // error reading value
-        }
-    }
-    getLocalUser()
+    // const getLocalUser = async () => {
+    //     try {
+    //         const jsonValue = await AsyncStorage.getItem('@storage_Key')
+    //         jsonValue != null ? setToken(jsonValue) : null;
+    //         console.log(jsonValue)
+    //     } catch (e) {
+    //         console.log('do or do not, there is no try')
+    //         // error reading value
+    //     }
+    // }
  
     useEffect( () => {
+        console.log("in buddyScreen token is ", token)
+
         // estabishing sockets
         const connect = async () =>  {
             socket.on("connect", (data) => {
@@ -45,10 +47,13 @@ const BuddyList = ({navigation}) => {
         const getUsers  = async() => {
             let req = await fetch(`http://172.19.80.142:3000/users`)
             let res = await req.json()
-            setAllUsers(res)
-            console.log(res)
+            console.log(res[1])
+            const otherUsers = res.filter((x)=>{return x.id != token.user.id})
+            console.log(otherUsers)
+            setAllUsers(otherUsers)
         }
 
+        // getLocalUser()
         connect()
         getUsers()
     },[])
