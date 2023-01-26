@@ -61,7 +61,7 @@ def all_mesages():
 @app.post('/messages')
 def messages():
     data = request.json
-    message = Message(data['content'], data['userId'])
+    message = Message(data['content'], data['userId'], data['roomId'])
     # print(data)
     db.session.add(message)
     db.session.commit()
