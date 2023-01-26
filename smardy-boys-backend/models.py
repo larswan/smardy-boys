@@ -46,6 +46,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text)  # nullable=False
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)  # nullable=False
+    roomId = db.Column(db.Integer, db.ForeignKey("rooms.id"), nullable=True)  # nullable=False
     seen = db.Column(db.Boolean)  # nullable=False
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(
@@ -53,9 +54,10 @@ class Message(db.Model):
 
     # this is basic python classes
     # Here is where we whitelist what can be set on create by a user client
-    def __init__(self, content, userId):
+    def __init__(self, content, userId, roomId):
         self.content = content
         self.userId = userId
+        self.roomId = roomId
         self.seen = False
 
     def ownerName(self):
@@ -68,8 +70,36 @@ class Message(db.Model):
             'id': self.id,
             'seen': self.seen,
             'userId': self.userId,
+            'roomId': self.roomId,
             'screen_name': self.ownerName()
         }
 
     def __repr__(self): # simple return of the instance
         return '<Message %r>' % self.content
+
+
+class Room(db.Model):
+    # this is the migration part
+    __tablename__ = 'rooms'
+    id = db.Column(db.Integer, primary_key=True)
+    userId1 = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)  # nullable=False
+    userId2 = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)  # nullable=False
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+    # this is basic python classes
+    # Here is where we whitelist what can be set on create by a user client
+    def __init__(self, userId1, userId2):
+        self.userId1 = userId1
+        self.userId2 = userId2
+
+    def to_dict(self):  # this is how we serialize (similar to_json)
+        return {
+            'id': self.id,
+            'userId1': self.userId1,
+            'userId2': self.userId2,
+        }
+
+    def __repr__(self): # simple return of the instance
+        return '<Room %r>' % self.id
