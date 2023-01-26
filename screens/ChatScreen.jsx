@@ -68,7 +68,7 @@ const ChatScreen = ({ route, navigation }) => {
     const handleMessage = async() => {
 
         // regular post message post request 
-        let req = await fetch(`http://10.129.2.101:3000/messages`, {
+        let req = await fetch(`http://172.19.80.142:3000/messages`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

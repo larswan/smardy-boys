@@ -87,27 +87,22 @@ def show_room(id):
     room = Room.query.get(id)
     return jsonify(room.to_dict())
 
-@app.post('/rooms')
-def rooms():
-    data = request.json
-    # findRoom1 = Room.query.filter_by(userId1=data['currentUser'], userId2=data['otherUser']).first()
-    print(data)
-    return jsonify(data.toJSON()), 201
-    # findRoom2 = Room.query.filter_by(userId2=data['currentUser'], userId1=data['otherUser']).first()
-    # print(findRoom1)
-    # if findRoom1:
-    #     return jsonify(findRoom1.id), 201
-    # elif findRoom2:
-    #     return jsonify(findRoom2.id), 201
-    # else:
-    #     room = Room(data['currentUser'], data['otherUser'])
-    #     print("new room is ", data)
-    #     db.session.add(room)
-    #     db.session.commit()
-    #     return jsonify(room.id), 201
- 
-        
-
+@app.post('/rooms/<int:roomId>/<int:roomId2>')
+def rooms(roomId, roomId2):
+    print(roomId, roomId2)
+    findRoom1 = Room.query.filter_by(userId1=roomId, userId2=roomId2).first()
+    findRoom2 = Room.query.filter_by(userId2=roomId2, userId1=roomId).first()
+    print(findRoom1)
+    if findRoom1:
+        return jsonify(findRoom1.id), 201
+    elif findRoom2:
+        return jsonify(findRoom2.id), 201
+    else:
+        room = Room(roomId, roomId2)
+        print("new room is ", room.id)
+        db.session.add(room)
+        db.session.commit()
+        return jsonify(room.id), 201
 
 @app.post('/login')
 def login():
