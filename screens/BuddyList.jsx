@@ -6,7 +6,7 @@ import User from '../components/User.jsx'
 import io from 'socket.io-client'
 
 
-const BuddyList = () => {
+const BuddyList = ({navigation}) => {
     // const [screenName, setScreenName] = useState("")
     const [allUsers, setAllUsers] =useState()
     const socket = io("http://172.19.80.142:3000")
@@ -88,7 +88,7 @@ const BuddyList = () => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active == true) {
                             return(
-                                <User user={user} />
+                                <User user={user} navigation= {navigation}/>
                             )}
                     }) : <Text>Loading</Text>
                 }
@@ -98,7 +98,7 @@ const BuddyList = () => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active != true){
                             return(
-                                <User user={user} />
+                                <User user={user} navigation={navigation} />
                             )}
                     }) : <Text>Loading</Text>
                 }

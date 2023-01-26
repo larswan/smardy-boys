@@ -1,9 +1,20 @@
 import {Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
-const User = ({user}) =>{
+const User = ({user, navigation}) =>{
+
+    const handlePress = async () => {
+
+
+
+
+        navigation.push('ChatScreen', {
+            roomId: "HEY THIS IS THE ROOM ID PARAM",
+        })
+    }
+
     return(
         <View>
-            <Text className="font-semibold">{user.screen_name}</Text>
+            <Text onPress={()=>{handlePress()}} className="font-semibold">{user.screen_name}</Text>
         </View>
     )
 }

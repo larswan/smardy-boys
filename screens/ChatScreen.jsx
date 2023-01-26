@@ -1,16 +1,18 @@
 import { Modal, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useEffect, useState } from 'react';
-import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+import { Button, Icon, Input, Divider } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client'
 import Message from '../components/Message.jsx'
 
-const ChatScreen = () => {
+const ChatScreen = ({ route, navigation }) => {
     const [newChat, setNewChat] = useState("")
     const [screenName, setScreenName] = useState("")
     const [messages, setMessages] =useState()
     const socket = io("http://172.19.80.142:3000")
     let token
+    const { roomId } = route.params
+ 
 
     // typing
     const handleChange = (e) => {
@@ -31,6 +33,10 @@ const ChatScreen = () => {
     getLocalUser()
  
     useEffect( () => {
+
+        // TEST
+        console.log(roomId)
+
         // estabishing sockets
         const connect = async () =>  {
         socket.on("connect", (data) => {
