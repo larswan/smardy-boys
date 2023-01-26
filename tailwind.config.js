@@ -4,6 +4,8 @@ module.exports = {
     "./App.jsx",
     "./screens/*.jsx",
     "./components/*.jsx",
+    "./components/User.jsx",
+    "./components/Message.jsx",
     "./screens/Home.jsx",
     "./Home.jsx"
   ],
