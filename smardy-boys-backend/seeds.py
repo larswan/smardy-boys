@@ -20,6 +20,12 @@ def run_seeds():
       room4 = Room(1,3)
       db.session.add_all([room1, room2, room3, room4])
       db.session.commit()
+      message1 = Message("This is Colter",2,2)
+      message2 = Message("This is Colters second message",2,2)
+      message3 = Message("This is Larson",3,2)
+      message4 = Message("This is Larson's second message",3,2)
+      db.session.add_all([message1, message2, message3, message4])
+      db.session.commit()
       print('Done! 🌳')
 
 

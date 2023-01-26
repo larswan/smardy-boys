@@ -51,9 +51,18 @@ def users():
     db.session.commit()
     return jsonify(user.to_dict()), 201
 
-@app.get('/messages')
-def all_mesages():
-    allMessages = Message.query.all()
+# get all messages original route
+# @app.get('/messages')
+# def all_mesages():
+#     allMessages = Message.query.all()
+#     messages = allMessages[::-1]
+#     Message.query.count()
+#     return jsonify([message.to_dict() for message in messages])
+
+
+@app.get('/messages/<int:room>')
+def all_mesages(room):
+    allMessages = Message.query.filter_by(roomId=room)
     messages = allMessages[::-1]
     Message.query.count()
     return jsonify([message.to_dict() for message in messages])

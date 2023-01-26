@@ -12,7 +12,6 @@ const BuddyList = ({navigation}) => {
     const socket = io("http://172.19.80.142:3000")
     let token
 
-
     // Get user object from local storage
     const getLocalUser = async () => {
         try {
@@ -29,14 +28,9 @@ const BuddyList = ({navigation}) => {
     useEffect( () => {
         // estabishing sockets
         const connect = async () =>  {
-        socket.on("connect", (data) => {
+            socket.on("connect", (data) => {
             console.log("Sockets are socking");
         });
-
-        // socket.on("message", (data) => {
-        //     setMessages(prevState => [data, ...prevState])
-        //     console.log(data);
-        // });
 
         socket.on("disconnect", (data) => {
             console.log("Scokets aint socking");
@@ -54,32 +48,10 @@ const BuddyList = ({navigation}) => {
             setAllUsers(res)
             console.log(res)
         }
+
         connect()
         getUsers()
-
     },[])
-
-    const handleMessage = async() => {
-
-        // regular post message post request 
-        // let req = await fetch(`http://10.129.2.101:3000/messages`, {
-        //     method: "POST",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //         // add in token
-        //     },
-        //     body: JSON.stringify({
-        //         content: newChat,
-        //         // seen: false,
-        //         userId: token.user.id,
-        //     })
-        // })
-        // let res = await req.json()
-
-        // socket.emit("message", res);
-        // console.log(newChat)
-    }
 
     return(
         <View className="p-4">
@@ -88,7 +60,7 @@ const BuddyList = ({navigation}) => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active == true) {
                             return(
-                                <User user={user} navigation= {navigation}/>
+                                <User user={user} socket={socket} token={token} navigation= {navigation}/>
                             )}
                     }) : <Text>Loading</Text>
                 }
@@ -98,7 +70,7 @@ const BuddyList = ({navigation}) => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active != true){
                             return(
-                                <User user={user} navigation={navigation} />
+                                <User user={user} socket={socket} token={token} navigation={navigation} />
                             )}
                     }) : <Text>Loading</Text>
                 }

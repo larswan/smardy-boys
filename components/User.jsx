@@ -1,6 +1,6 @@
 import {Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
-const User = ({user, navigation}) =>{
+const User = ({user, navigation, socket, token}) =>{
 
     const handlePress = async () => {
 
@@ -8,7 +8,9 @@ const User = ({user, navigation}) =>{
 
 
         navigation.push('ChatScreen', {
-            roomId: "HEY THIS IS THE ROOM ID PARAM",
+            roomId: 2,
+            token: token,
+            socket: socket,
         })
     }
 

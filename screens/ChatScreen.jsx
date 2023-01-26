@@ -9,11 +9,8 @@ const ChatScreen = ({ route, navigation }) => {
     const [newChat, setNewChat] = useState("")
     const [screenName, setScreenName] = useState("")
     const [messages, setMessages] =useState()
-    const socket = io("http://172.19.80.142:3000")
-    let token
-    const { roomId } = route.params
+    const { roomId, socket, token } = route.params
  
-
     // typing
     const handleChange = (e) => {
         setNewChat(e)
@@ -58,9 +55,8 @@ const ChatScreen = ({ route, navigation }) => {
         }
 
         // fetch all prior messages
-
         const getMessages  = async() => {
-            let req = await fetch(`http://172.19.80.142:3000/messages`)
+            let req = await fetch(`http://172.19.80.142:3000/messages/${roomId}`)
             let res = await req.json()
             setMessages(res)
         }
