@@ -3,7 +3,7 @@ from flask import Flask, send_file, request, jsonify
 from flask_migrate import Migrate
 from flask_cors import CORS
 from config import Config
-from models import db, User, Message
+from models import db, User, Message, Room
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
@@ -34,6 +34,13 @@ def all_users():
     User.query.count()
     return jsonify([user.to_dict() for user in users])
 
+@app.get('/users/<int:id>')
+def show_user(id):
+    user = User.query.get(id)
+    if user:
+        return jsonify(user.to_dict())
+    else:
+        return {}, 404
 
 @app.post('/users')
 def users():
@@ -59,6 +66,26 @@ def messages():
     db.session.add(message)
     db.session.commit()
     return jsonify(message.to_dict()), 201
+
+@app.get('/rooms')
+def all_rooms():
+    rooms = Room.query.all()
+    Room.query.count()
+    return jsonify([room.to_dict() for room in rooms])
+
+@app.get('/rooms/<int:id>')
+def show_room(id):
+    room = Room.query.get(id)
+    return jsonify(room.to_dict())
+
+@app.post('/rooms')
+def rooms():
+    data = request.json
+    room = Room(data['userId1'], data['userId2'])
+    print(data)
+    db.session.add(room)
+    db.session.commit()
+    return jsonify(room.to_dict()), 201
 
 @app.post('/login')
 def login():
