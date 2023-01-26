@@ -9,7 +9,7 @@ const ChatScreen = () => {
     const [newChat, setNewChat] = useState("")
     const [screenName, setScreenName] = useState("")
     const [messages, setMessages] =useState()
-    const socket = io("http://10.129.2.101:3000")
+    const socket = io("http://172.19.80.142:3000")
     let token
 
     // typing
@@ -54,7 +54,7 @@ const ChatScreen = () => {
         // fetch all prior messages
 
         const getMessages  = async() => {
-            let req = await fetch(`http://10.129.2.101:3000/messages`)
+            let req = await fetch(`http://172.19.80.142:3000/messages`)
             let res = await req.json()
             setMessages(res)
         }
@@ -82,6 +82,7 @@ const ChatScreen = () => {
         let res = await req.json()
 
         socket.emit("message", res);
+        console.log(newChat)
         setNewChat("")
     }
 

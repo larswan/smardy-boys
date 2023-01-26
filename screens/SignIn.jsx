@@ -21,7 +21,7 @@ const SignIn = ({navigation}) => {
     const handleSubmit = () => {
         // add a post request for login
         const loginSubmit = async () => {
-            let req = await fetch(`http://10.129.2.101:3000/login`, {
+            let req = await fetch(`http://172.19.80.142:3000/login`, {
                 method: "POST",
                 headers: {
                     'Accept' : 'application/json',
@@ -34,10 +34,13 @@ const SignIn = ({navigation}) => {
             })
             if (req.ok) {
                 Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-                navigation.push('ChatScreen')
+                navigation.push('BuddyList')
                 let res = await req.json()  
                 console.log(res)
                 storeData(res)
+            }
+            else{
+                Alert.alert(`Unrecognized username or password`)
             }
         }
         loginSubmit()
