@@ -90,21 +90,6 @@ export default function App() {
           }}
         />
         <Stack.Screen 
-        name="TestScreen"
-        component={TestScreen}
-        options={{
-          title: 'Test Screen',
-          headerStyle: {
-            backgroundColor: '#181372'
-          },
-          headerTintColor: 'white',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontFamily: 'DotGothic16_400Regular'
-          },
-        }}
-        />
-        <Stack.Screen 
         name="ChatScreen"
         component={ChatScreen}
         options={{
@@ -118,6 +103,21 @@ export default function App() {
             fontFamily: 'DotGothic16_400Regular'
           },
         }}
+        />
+        <Stack.Screen
+          name="TestScreen"
+          component={TestScreen}
+          options={{
+            title: 'Test Screen',
+            headerStyle: {
+              backgroundColor: '#181372'
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontFamily: 'DotGothic16_400Regular'
+            },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>     

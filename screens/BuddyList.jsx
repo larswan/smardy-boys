@@ -6,37 +6,33 @@ import User from '../components/User.jsx'
 import io from 'socket.io-client'
 
 
-const BuddyList = () => {
-    // const [screenName, setScreenName] = useState("")
+const BuddyList = ({navigation, route}) => {
     const [allUsers, setAllUsers] =useState()
     const socket = io("http://172.19.80.142:3000")
-    let token
+    // const [token, setToken] = useState()
+    const { token } = route.params
 
 
     // Get user object from local storage
-    const getLocalUser = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@storage_Key')
-            jsonValue != null ? token = JSON.parse(jsonValue) : null;
-            setScreenName(token.user.screen_name)
-        } catch (e) {
-            console.log('do or do not, there is no try')
-            // error reading value
-        }
-    }
-    getLocalUser()
+    // const getLocalUser = async () => {
+    //     try {
+    //         const jsonValue = await AsyncStorage.getItem('@storage_Key')
+    //         jsonValue != null ? setToken(jsonValue) : null;
+    //         console.log(jsonValue)
+    //     } catch (e) {
+    //         console.log('do or do not, there is no try')
+    //         // error reading value
+    //     }
+    // }
  
     useEffect( () => {
+        console.log("in buddyScreen token is ", token)
+
         // estabishing sockets
         const connect = async () =>  {
-        socket.on("connect", (data) => {
+            socket.on("connect", (data) => {
             console.log("Sockets are socking");
         });
-
-        // socket.on("message", (data) => {
-        //     setMessages(prevState => [data, ...prevState])
-        //     console.log(data);
-        // });
 
         socket.on("disconnect", (data) => {
             console.log("Scokets aint socking");
@@ -51,35 +47,16 @@ const BuddyList = () => {
         const getUsers  = async() => {
             let req = await fetch(`http://172.19.80.142:3000/users`)
             let res = await req.json()
-            setAllUsers(res)
-            console.log(res)
+            console.log(res[1])
+            const otherUsers = res.filter((x)=>{return x.id != token.user.id})
+            console.log(otherUsers)
+            setAllUsers(otherUsers)
         }
+
+        // getLocalUser()
         connect()
         getUsers()
-
     },[])
-
-    const handleMessage = async() => {
-
-        // regular post message post request 
-        // let req = await fetch(`http://10.129.2.101:3000/messages`, {
-        //     method: "POST",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //         // add in token
-        //     },
-        //     body: JSON.stringify({
-        //         content: newChat,
-        //         // seen: false,
-        //         userId: token.user.id,
-        //     })
-        // })
-        // let res = await req.json()
-
-        // socket.emit("message", res);
-        // console.log(newChat)
-    }
 
     return(
         <View className="p-4">
@@ -88,7 +65,7 @@ const BuddyList = () => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active == true) {
                             return(
-                                <User user={user} />
+                                <User user={user} socket={socket} token={token} navigation= {navigation}/>
                             )}
                     }) : <Text>Loading</Text>
                 }
@@ -98,7 +75,7 @@ const BuddyList = () => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active != true){
                             return(
-                                <User user={user} />
+                                <User user={user} socket={socket} token={token} navigation={navigation} />
                             )}
                     }) : <Text>Loading</Text>
                 }

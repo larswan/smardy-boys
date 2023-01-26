@@ -20,8 +20,8 @@ const TestScreen = ({ navigation }) => {
             </View>
             <TextInput >Replace this text with your name name</TextInput>
             <Button style={styles.button}>Poop</Button>
-            <Button ViewComponent={LinearGradient} // Don't forget this!
-                color="red" className="mb-6">Secondary</Button>
+            {/* <Button ViewComponent={LinearGradient} // Don't forget this!
+                color="red" className="mb-6">Secondary</Button> */}
             <Divider inset={true} insetType="middle" />
             {/* <Divider /> */}
             <Modal

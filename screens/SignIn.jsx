@@ -1,6 +1,6 @@
 import { Alert, Modal, KeyboardAvoidingView, Image, ViewAlert, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
-import { Button, Icon, Input, LinearGradient, Divider } from '@rneui/themed';
+import { Button, Icon, Input, Divider } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from "react-native-config";
 
@@ -13,6 +13,7 @@ const SignIn = ({navigation}) => {
         try {
             const jsonValue = JSON.stringify(value)
             await AsyncStorage.setItem('@storage_Key', jsonValue)
+            console.log(jsonValue)
         } catch (e) {
             Alert.alert(`error storing token`)
         }
@@ -34,10 +35,11 @@ const SignIn = ({navigation}) => {
             })
             if (req.ok) {
                 Alert.alert(`Your ScreenName is ${username} your password is ${password}`)
-                navigation.push('BuddyList')
                 let res = await req.json()  
-                console.log(res)
                 storeData(res)
+                navigation.push('BuddyList', {
+                    token: res,
+                })
             }
             else{
                 Alert.alert(`Unrecognized username or password`)
@@ -49,10 +51,7 @@ const SignIn = ({navigation}) => {
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <ScrollView containerStyle={styles.container}>
-                {/* <Image 
-                // style={styles.image} 
-                className="w-full justify-center "
-                source={require ("../assets/signInSplash.png")}/> */}
+                
                 <Text>Poopoo{Config.SECRET_TEST}</Text>
                 <Input name="username" placeholder='Username' type="text" onChangeText={(username)=>{setUsername(username)}} />
                 <Input name="password" placeholder='Password' type="password" secureTextEntry={true} onChangeText={(password) => {setPassword(password) }} />
@@ -71,6 +70,10 @@ const SignIn = ({navigation}) => {
                         marginVertical: 10,
                     }}
                 />
+                <Image 
+                // style={styles.image} 
+                className="w-full justify-center "
+                source={require ("../assets/signInSplash.png")}/>
             </ScrollView>
         </KeyboardAvoidingView>
 
