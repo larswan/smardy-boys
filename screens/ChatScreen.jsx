@@ -19,7 +19,6 @@ const ChatScreen = ({ route, navigation }) => {
     // Get user object from local storage
     const getLocalUser = async () => {
         console.log(token)
-        setScreenName(token.user.screen_name)
 
 
         // try {
@@ -31,10 +30,10 @@ const ChatScreen = ({ route, navigation }) => {
         //     // error reading value
         // }
     }
-    getLocalUser()
+    // getLocalUser()
  
     useEffect( () => {
-
+        setScreenName(token.user.screen_name)
         // TEST
         console.log(roomId)
 
