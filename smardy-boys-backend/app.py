@@ -89,9 +89,9 @@ def show_room(id):
 
 @app.post('/rooms/<int:roomId>/<int:roomId2>')
 def rooms(roomId, roomId2):
-    print(roomId, roomId2)
+    # print(roomId, roomId2)
     findRoom1 = Room.query.filter_by(userId1=roomId, userId2=roomId2).first()
-    findRoom2 = Room.query.filter_by(userId2=roomId2, userId1=roomId).first()
+    findRoom2 = Room.query.filter_by(userId2=roomId, userId1=roomId2).first()
     print(findRoom1)
     if findRoom1:
         return jsonify(findRoom1.id), 201
