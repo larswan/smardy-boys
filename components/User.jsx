@@ -3,14 +3,7 @@ import {Alert, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View
 const User = ({user, navigation, socket, token}) =>{
 
     const handlePress = async () => {
-        // console.log("token.id is ", token.user.id)
-
-        // navigation.push('ChatScreen', {
-        //         roomId: 2,
-        //         token: token,
-        //         socket: socket,
-        //     })
-        
+               
         // fetch room exists or not BROKEN
         let req = await fetch(`http://172.19.80.142:3000/rooms/${token.user.id}/${user.id}`, {
             method: "POST",

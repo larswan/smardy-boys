@@ -18,19 +18,22 @@ const ChatScreen = ({ route, navigation }) => {
 
     // Get user object from local storage
     const getLocalUser = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@storage_Key')
-            jsonValue != null ? token = JSON.parse(jsonValue) : null;
-            setScreenName(token.user.screen_name)
-        } catch (e) {
-            console.log('do or do not, there is no try')
-            // error reading value
-        }
+        console.log(token)
+
+
+        // try {
+        //     const jsonValue = await AsyncStorage.getItem('@storage_Key')
+        //     jsonValue != null ? token = JSON.parse(jsonValue) : null;
+        //     setScreenName(token.user.screen_name)
+        // } catch (e) {
+        //     console.log('do or do not, there is no try')
+        //     // error reading value
+        // }
     }
-    getLocalUser()
+    // getLocalUser()
  
     useEffect( () => {
-
+        setScreenName(token.user.screen_name)
         // TEST
         console.log(roomId)
 
