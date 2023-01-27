@@ -9,7 +9,7 @@ const ChatScreen = ({ route, navigation }) => {
     const [newChat, setNewChat] = useState("")
     const [screenName, setScreenName] = useState("")
     const [messages, setMessages] =useState()
-    const { roomId, socket, token } = route.params
+    const { roomId, socket, token, ipUrl } = route.params
  
     // typing
     const handleChange = (e) => {
@@ -43,9 +43,13 @@ const ChatScreen = ({ route, navigation }) => {
             console.log("Sockets are socking");
         });
 
-        socket.on("message", (data) => {
+        socket.on("join", (data) => {
             setMessages(prevState => [data, ...prevState])
-            // console.log(data);
+            console.log(data);
+        });
+
+        socket.on("message", (data) => {
+            console.log(data);
         });
 
         socket.on("disconnect", (data) => {
@@ -55,11 +59,11 @@ const ChatScreen = ({ route, navigation }) => {
         return function cleanup() {
             socket.disconnect();
         }; 
-        }
+    }
 
         // fetch all prior messages
         const getMessages  = async() => {
-            let req = await fetch(`http://172.19.80.142:3000/messages/${roomId}`)
+            let req = await fetch(`http://10.129.2.101:3000/messages/${roomId}`)
             let res = await req.json()
             setMessages(res)
         }
@@ -69,9 +73,9 @@ const ChatScreen = ({ route, navigation }) => {
     },[])
 
     const handleMessage = async() => {
-
+        if (newChat == "") return;
         // regular post message post request 
-        let req = await fetch(`http://172.19.80.142:3000/messages`, {
+        let req = await fetch(`http://10.129.2.101:3000/messages`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -82,11 +86,12 @@ const ChatScreen = ({ route, navigation }) => {
                 content: newChat,
                 // seen: false,
                 userId: token.user.id,
+                roomId: roomId,
             })
         })
         let res = await req.json()
 
-        socket.emit("message", res);
+        socket.emit("join", res);
         console.log(newChat)
         setNewChat("")
     }

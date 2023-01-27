@@ -8,9 +8,9 @@ import io from 'socket.io-client'
 
 const BuddyList = ({navigation, route}) => {
     const [allUsers, setAllUsers] =useState()
-    const socket = io("http://172.19.80.142:3000")
+    const socket = io("http://10.129.2.101:3000")
     // const [token, setToken] = useState()
-    const { token } = route.params
+    const { token, ipUrl } = route.params
 
 
     // Get user object from local storage
@@ -31,8 +31,8 @@ const BuddyList = ({navigation, route}) => {
         // estabishing sockets
         const connect = async () =>  {
             socket.on("connect", (data) => {
-            console.log("Sockets are socking");
-        });
+                console.log("Sockets are socking");
+            });
 
         socket.on("disconnect", (data) => {
             console.log("Scokets aint socking");
@@ -45,7 +45,7 @@ const BuddyList = ({navigation, route}) => {
 
         // fetch all users
         const getUsers  = async() => {
-            let req = await fetch(`http://172.19.80.142:3000/users`)
+            let req = await fetch(`${ipUrl}/users`)
             let res = await req.json()
             console.log(res[1])
             const otherUsers = res.filter((x)=>{return x.id != token.user.id})
@@ -65,7 +65,7 @@ const BuddyList = ({navigation, route}) => {
                     allUsers ? allUsers.map((user)=>{
                         if (user.active == true) {
                             return(
-                                <User user={user} socket={socket} token={token} navigation= {navigation}/>
+                                <User user={user} socket={socket} token={token} navigation={navigation} ipUrl={ipUrl} />
                             )}
                     }) : <Text>Loading</Text>
                 }

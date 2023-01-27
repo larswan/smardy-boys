@@ -114,6 +114,9 @@ def login():
     if user.password == given_password:
         # encode JWT as the token variable, signing it with our application's secret key
         # we store only what the token will need while identifying the users on any given request
+        user.active = True
+        print(user.active)
+        db.session.commit()
         token = create_access_token(identity=user.id)
         return jsonify({'user': user.to_dict(), 'token': token})
     else:
@@ -123,7 +126,8 @@ def login():
 def connected():
     # '''This function is an event listener that gets called when the client connects to the server'''
     print(f'Client {request.sid} has connected')
-    emit('connect', {'data': f'id: {request.sid} is connected'})
+    emit('connect', {
+         'data': f'id: {request.sid} is connected'}, broadcast=True)
 
 
     # '''This function runs whenever a client sends a socket message to be broadcast'''
@@ -147,10 +151,11 @@ def disconnected():
 
 @socketio.on('join')
 def on_join(data):
-    username = data['username']
-    room = data['room']
+    screen_name = data['screen_name']
+    room = data['roomId']
     join_room(room)
-    send(username + ' has entered the room.', to=room)
+    send(screen_name + ' has entered room', to=room)
+    emit('join', data, to=room, broadcast=True)
 
 
 @socketio.on('leave')

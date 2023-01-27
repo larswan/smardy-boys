@@ -7,6 +7,7 @@ import Config from "react-native-config";
 const SignIn = ({navigation}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const ipUrl = "http://10.129.2.101:3000"
 
     // Stores the JWT in local storage
     const storeData = async (value) => {
@@ -22,7 +23,7 @@ const SignIn = ({navigation}) => {
     const handleSubmit = () => {
         // add a post request for login
         const loginSubmit = async () => {
-            let req = await fetch(`http://172.19.80.142:3000/login`, {
+            let req = await fetch(`${ipUrl}/login`, {
                 method: "POST",
                 headers: {
                     'Accept' : 'application/json',
@@ -39,6 +40,7 @@ const SignIn = ({navigation}) => {
                 storeData(res)
                 navigation.push('BuddyList', {
                     token: res,
+                    ipUrl: ipUrl,
                 })
             }
             else{
