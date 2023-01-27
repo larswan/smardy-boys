@@ -5,35 +5,32 @@ const User = ({user, navigation, socket, token}) =>{
     const handlePress = async () => {
         // console.log("token.id is ", token.user.id)
 
-        navigation.push('ChatScreen', {
-                roomId: 2,
+        // navigation.push('ChatScreen', {
+        //         roomId: 2,
+        //         token: token,
+        //         socket: socket,
+        //     })
+        
+        // fetch room exists or not BROKEN
+        let req = await fetch(`http://172.19.80.142:3000/rooms/${token.user.id}/${user.id}`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        let res = await req.json()
+        if (req.ok) {
+            console.log(res)
+            navigation.push('ChatScreen', {
+                roomId: res,
                 token: token,
                 socket: socket,
             })
-        
-        // fetch room exists or not BROKEN
-        // let req = await fetch(`http://172.19.80.142:3000/rooms`, {
-        //     method: "POST",
-        //     headers: {
-        //         // 'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         currentUser: token.user.id,
-        //         otherUser: user.id,
-        //     })
-        // })
-        // if (req.ok) {
-        //     console.log(req)
-        //     // navigation.push('ChatScreen', {
-        //     //     roomId: 2,
-        //     //     token: token,
-        //     //     socket: socket,
-        //     // })
-        // }
-        // else {
-        //     Alert.alert(`Problem loading the room`)
-        // }
+        }
+        else {
+            Alert.alert(`Problem loading the room`)
+        }
     }
 
     return(
